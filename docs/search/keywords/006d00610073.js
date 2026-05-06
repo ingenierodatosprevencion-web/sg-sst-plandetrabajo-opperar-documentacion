@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("mas",["Section"],[["Masivo",,[[,"Generador de Plan de Trabajo Masivo",,,0,"File:CargaMasiva.js:Generador_de_Plan_de_Trabajo_Masivo"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("mas",["Section"],[["Masiva&quot;","masiva\"",[[,"5. Módulo &quot;Planeación Masiva&quot;",,"5.módulo\"planeación masiva\"",0,"File:ManualUsuario.txt:5.Módulo\"Planeación_Masiva\""]]],["Masivo",,[[,"Generador de Plan de Trabajo Masivo",,,0,"File:CargaMasiva.js:Generador_de_Plan_de_Trabajo_Masivo"]]]]);

@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("reg",["Section"],[["Registro",,[[,"5. Registro de Auditoría",,"5.registro de auditoría",0,"File:ManualUsuario.txt:5.Registro_de_Auditoría"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("reg",["Section"],[["Reglas",,[[,"4. Reglas de Reprogramación",,"4.reglas de reprogramación",0,"File:ManualUsuario.txt:4.Reglas_de_Reprogramación"]]]]);

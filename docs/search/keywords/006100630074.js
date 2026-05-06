@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("act",["Section"],[["Actividad&quot;","actividad\"",[[,"6. Módulo &quot;Crear Actividad&quot;",,"6.módulo\"crear actividad\"",0,"File:ManualUsuario.txt:6.Módulo\"Crear_Actividad\""]]]]);

@@ -1,1 +1,0 @@
-﻿NDSearch.OnPrefixDataLoaded("con",["Section"],[["Control",,[[,"4. Tablero de Control",,"4.tablero de control",0,"File:ManualUsuario.txt:4.Tablero_de_Control"]]]]);

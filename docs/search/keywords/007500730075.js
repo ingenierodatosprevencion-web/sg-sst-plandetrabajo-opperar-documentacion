@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("usu",["Section"],[["Usuario",,[[,"Manual de Usuario SG-SST",,,0,"File:ManualUsuario.txt:Manual_de_Usuario_SG-SST"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("usu",["Section"],[["Usuario",,[[,"Manual de Usuario Integral SG-SST",,,0,"File:ManualUsuario.txt:Manual_de_Usuario_Integral_SG-SST"]]]]);

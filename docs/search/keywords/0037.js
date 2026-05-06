@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("7",["Section"],[["7",,[[,"7. Módulo &quot;Dashboard&quot;",,"7.módulo\"dashboard\"",0,"File:ManualUsuario.txt:7.Módulo\"Dashboard\""]]]]);

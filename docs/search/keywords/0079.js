@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("y",["Section"],[["y",,[[,"1. Roles y Permisos",,"1.roles y permisos",0,"File:ManualUsuario.txt:1.Roles_y_Permisos"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("y",["Section"],[["y",,[[,"1. Acceso al Sistema y Seguridad",,"1.acceso al sistema y seguridad",0,"File:ManualUsuario.txt:1.Acceso_al_Sistema_y_Seguridad"],[,"2. Perfiles y Permisos",,"2.perfiles y permisos",0,"File:ManualUsuario.txt:2.Perfiles_y_Permisos"],[,"8. Auditoría y Trazabilidad",,"8.auditoría y trazabilidad",0,"File:ManualUsuario.txt:8.Auditoría_y_Trazabilidad"]]]]);

@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("rep",["Section"],[["Reprogramación",,[[,"3. Lógica de Reprogramación",,"3.lógica de reprogramación",0,"File:ManualUsuario.txt:3.Lógica_de_Reprogramación"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("rep",["Section"],[["Reprogramación",,[[,"4. Reglas de Reprogramación",,"4.reglas de reprogramación",0,"File:ManualUsuario.txt:4.Reglas_de_Reprogramación"]]]]);

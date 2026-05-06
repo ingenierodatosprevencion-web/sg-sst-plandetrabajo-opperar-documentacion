@@ -1,1 +1,1 @@
-﻿NDSearch.OnPrefixDataLoaded("aud",["Section"],[["Auditoría",,[[,"5. Registro de Auditoría",,"5.registro de auditoría",0,"File:ManualUsuario.txt:5.Registro_de_Auditoría"]]]]);
+﻿NDSearch.OnPrefixDataLoaded("aud",["Section"],[["Auditoría",,[[,"8. Auditoría y Trazabilidad",,"8.auditoría y trazabilidad",0,"File:ManualUsuario.txt:8.Auditoría_y_Trazabilidad"]]]]);
