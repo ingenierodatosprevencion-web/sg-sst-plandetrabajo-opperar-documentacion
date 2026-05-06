@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("gen",["Section","Function"],[["Generador",,[[,"Generador de Plan de Trabajo Masivo",,,0,"File:CargaMasiva.js:Generador_de_Plan_de_Trabajo_Masivo"]]],["generarPlanDeTrabajoMasivo",,[[,,,,1,"File:CargaMasiva.js:generarPlanDeTrabajoMasivo"]]]]);

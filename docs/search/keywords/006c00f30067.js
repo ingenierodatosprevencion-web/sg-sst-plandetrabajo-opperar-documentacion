@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("lóg",["Section"],[["Lógica",,[[,"3. Lógica de Reprogramación",,"3.lógica de reprogramación",0,"File:ManualUsuario.txt:3.Lógica_de_Reprogramación"]]]]);

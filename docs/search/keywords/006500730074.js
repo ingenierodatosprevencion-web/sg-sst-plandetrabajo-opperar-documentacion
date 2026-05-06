@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("est",["Section"],[["Estructurales",,[[,"Tablas Estructurales",,,0,"File:Arquitectura.txt:Tablas_Estructurales"]]]]);

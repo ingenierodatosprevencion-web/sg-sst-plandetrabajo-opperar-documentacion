@@ -1,0 +1,49 @@
+Title: Manual de Usuario SG-SST
+
+Bienvenido al manual de usuario del Sistema de Gestión del Plan de Trabajo (SG-SST). Esta plataforma permite la planificación, ejecución y seguimiento de las actividades asociadas a los diferentes Planes de Trabajo de la compañía.
+
+Section: 1. Roles y Permisos
+
+El sistema identifica automáticamente tu nivel de acceso al iniciar sesión:
+
+- *Administrador*: Tiene acceso total. Puede ver los tableros de control (Dashboard), crear nuevas actividades, hacer planeación masiva y ver las tareas de cualquier analista. Además, no tiene límite de reprogramaciones.
+- *Analista Principal*: Es el dueño del proceso. Solo visualiza y gestiona las tareas que están a su nombre (responsable directo).
+- *Auxiliar*: Apoya la gestión de una sede u operación. Solo puede visualizar y editar las tareas que le pertenecen al Analista Principal de su misma operación.
+
+Section: 2. Módulo "Mis Tareas"
+
+Es la pantalla principal de ejecución. Aquí encontrarás las tarjetas de las actividades que debes realizar.
+
+*Filtros de Búsqueda*
+En la parte superior tienes una barra de herramientas para encontrar rápidamente tus asignaciones:
+- Puedes filtrar por *Mes*, *Estado* (ej. Planeado, Terminado), *Sede/Operación* y *Programa*.
+- *Filtro por Plan de Trabajo (PDT)*: Te permite separar visualmente si estás revisando tareas del "PESV SEDE CENTRAL", "SST SEDE CENTRAL" o el "PLAN DE TRABAJO ANALISTA".
+
+*Gestión y Guardado*
+Para cada tarea, puedes modificar su estado actual, agregar una observación de texto y guardar los cambios.
+Si modificas varias tareas al mismo tiempo, aparecerá un botón verde en la parte superior derecha que te permitirá *Guardar Todas* en un solo clic.
+
+Section: 3. Lógica de Reprogramación (Aplazamientos)
+
+Si por algún motivo no puedes cumplir con una tarea en el mes actual, el sistema permite moverla al mes siguiente bajo reglas estrictas:
+
+1. Selecciona el estado *REPROGRAMADO*.
+2. Al guardar, la tarea desaparecerá del mes actual y se creará en el mes siguiente con estado "PLANEADO".
+
+*Restricciones del Sistema (Anti-Colisión):*
+- *Límite de intentos*: Un Analista solo puede reprogramar una misma tarea un máximo de 3 veces. Si alcanza el límite, deberá marcarla como *NO EJECUTADO*.
+- *Tareas Recurrentes*: Si intentas reprogramar una tarea, pero el sistema detecta que ya tienes esa misma actividad asignada para el mes siguiente, no te dejará moverla para evitar que se duplique.
+- *Cierre de Año*: Las actividades programadas para el mes de *Diciembre* no pueden ser reprogramadas hacia el próximo año.
+
+Section: 4. Tablero de Control (Dashboard)
+
+Módulo exclusivo para Administradores. Presenta los indicadores clave de rendimiento (KPIs) en tiempo real.
+
+- *Cumplimiento Global*: Muestra el porcentaje de éxito de toda la empresa basado en las tareas cerradas frente a las planeadas.
+- *Alertas de Retraso*: Muestra la cantidad de tareas de *meses anteriores* que quedaron abiertas. Se pueden desglosar los retrasos por Analista, Operación y Plan de Trabajo (PDT).
+- *Gráficos de Barras*: Visualización interactiva para comparar rápidamente el rendimiento por Mes, Top 10 de Operaciones, Programas y PDTs.
+
+Section: 5. Registro de Auditoría
+
+Por seguridad y trazabilidad, el sistema cuenta con un motor de auditoría invisible. 
+Cualquier cambio de estado, eliminación de tareas, creación de actividades o reprogramaciones masivas, queda registrado con la fecha exacta, la acción y el *correo del usuario* que la realizó.

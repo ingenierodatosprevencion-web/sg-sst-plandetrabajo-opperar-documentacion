@@ -1,0 +1,1 @@
+﻿NDSummary.OnToolTipsLoaded("File:Arquitectura.txt",{1:"<div class=\"NDToolTip TSection LTextFile\"><div class=\"TTSummary\">El aplicativo utiliza Google Sheets como motor relacional.</div></div>"});

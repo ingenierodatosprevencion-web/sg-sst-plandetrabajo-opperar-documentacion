@@ -1,0 +1,2486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan de Trabajo - Opperar</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+
+/* ==================== DASHBOARD EJECUTIVO ==================== */
+.dashboard-container {
+  padding: 10px;
+  background-color: #f8f9fa;
+}
+
+/* --- TARJETAS KPI (Key Performance Indicators) --- */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.kpi-card {
+  background: var(--white);
+  border-radius: 16px; /* Bordes más redondeados */
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.kpi-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Decoración lateral de color */
+.kpi-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 6px;
+  background: var(--primary);
+}
+
+.kpi-card.blue::before { background: #003645; }
+.kpi-card.orange::before { background: #C15E0E; }
+.kpi-card.teal::before { background: #095262; }
+
+.kpi-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.kpi-number {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--secondary);
+  line-height: 1;
+}
+
+.kpi-icon-bg {
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  font-size: 5rem;
+  opacity: 0.05;
+  transform: rotate(-15deg);
+  pointer-events: none;
+}
+
+/* --- BARRA DE FILTROS --- */
+.filters-container {
+  background: var(--white);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: flex-end;
+  border: 1px solid #eee;
+}
+
+.filter-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter-item label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--secondary);
+  margin-bottom: 5px;
+  display: block;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  font-size: 0.9rem;
+  color: #334155;
+  transition: all 0.2s;
+}
+
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(33, 141, 49, 0.1);
+}
+
+/* --- GRÁFICAS --- */
+.charts-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+}
+
+.chart-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+  height: 400px; /* ALTURA FIJA IMPORTANTE */
+  display: flex;
+  flex-direction: column;
+}
+
+.chart-header {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 10px;
+}
+
+.chart-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
+.chart-canvas-container {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: 100%; /* Ocupa el espacio restante */
+  overflow: hidden;
+}
+
+/* --- TABLA RESUMEN EJECUTIVA --- */
+.table-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+  overflow: hidden;
+}
+
+.table-header-panel {
+  padding: 20px 25px;
+  background: linear-gradient(to right, #ffffff, #f8fafc);
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--secondary);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 500px; /* Scroll vertical */
+}
+
+.exec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.exec-table thead th {
+  background-color: var(--secondary);
+  color: #fff;
+  padding: 15px 20px;
+  text-align: left;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.exec-table tbody tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background-color 0.2s;
+}
+
+.exec-table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.exec-table td {
+  padding: 12px 20px;
+  color: #475569;
+}
+
+/* Badges para conteos */
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0 6px;
+}
+
+.bg-gray { background: #f1f5f9; color: #64748b; }
+.bg-green { background: #dcfce7; color: #166534; }
+.bg-orange { background: #ffedd5; color: #9a3412; }
+.bg-blue { background: #dbeafe; color: #1e40af; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .charts-wrapper { grid-template-columns: 1fr; }
+  .filters-container { flex-direction: column; align-items: stretch; }
+  .filter-item { min-width: 100%; }
+}
+
+    :root {
+      --primary: #218D31;
+      --secondary: #003645;
+      --accent: #095262;
+      --warning: #C15E0E;
+      --success: #74a480;
+      --dark: #203322;
+      --light: #f5f5f5;
+      --white: #ffffff;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--light) 0%, #e0e0e0 100%);
+      color: #333;
+      line-height: 1.6;
+    }
+
+/* ==================== SISTEMA DE NOTIFICACIONES TOAST ==================== */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  pointer-events: none;
+}
+
+.toast {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 300px;
+  animation: slideInRight 0.3s ease;
+  pointer-events: auto;
+  border-left: 4px solid;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: currentColor;
+  animation: progress 3s linear;
+}
+
+@keyframes progress {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.toast-success {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.toast-error {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+.toast-warning {
+  border-color: var(--warning);
+  color: var(--warning);
+}
+
+.toast-info {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.toast-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.toast-content {
+  flex: 1;
+  color: #333;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.toast-message {
+  font-size: 13px;
+  color: #666;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.toast-close:hover {
+  background: rgba(0,0,0,0.05);
+  color: #333;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+.toast.hiding {
+  animation: slideOutRight 0.3s ease forwards;
+}
+
+/* ==================== MODAL DE CONFIRMACIÓN PERSONALIZADO ==================== */
+.custom-confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100000;
+  animation: fadeIn 0.2s ease;
+}
+
+.custom-confirm-overlay.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.custom-confirm-box {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 30px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.confirm-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.confirm-icon.success { color: var(--success); }
+.confirm-icon.error { color: var(--error); }
+.confirm-icon.warning { color: var(--warning); }
+.confirm-icon.info { color: var(--accent); }
+
+.confirm-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--secondary);
+}
+
+.confirm-message {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+.confirm-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.confirm-btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  min-width: 100px;
+}
+
+.confirm-btn-cancel {
+  background: #f5f5f5;
+  color: #666;
+}
+
+.confirm-btn-cancel:hover {
+  background: #e0e0e0;
+}
+
+.confirm-btn-confirm {
+  background: var(--primary);
+  color: var(--white);
+}
+
+.confirm-btn-confirm:hover {
+  background: var(--success);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 141, 49, 0.3);
+}
+
+.confirm-btn-danger {
+  background: var(--error);
+  color: var(--white);
+}
+
+.confirm-btn-danger:hover {
+  background: #a00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(204, 0, 0, 0.3);
+}
+
+/* ==================== LOADING PERSONALIZADO ==================== */
+.custom-loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+
+.custom-loading-overlay.active {
+  display: flex;
+}
+
+.custom-loading-content {
+  text-align: center;
+  color: var(--white);
+}
+
+.custom-spinner {
+  border: 4px solid rgba(255,255,255,0.3);
+  border-top: 4px solid var(--white);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 20px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.custom-loading-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* ==================== Z-INDEX HIERARCHY ==================== */
+/* Del más bajo al más alto */
+
+.app-footer {
+  z-index: 1;
+}
+
+.loading-overlay,
+.custom-loading-overlay {
+  z-index: 9998;
+}
+
+.toast-container {
+  z-index: 9999;
+}
+
+.modal {
+  z-index: 99999;
+}
+
+.custom-confirm-overlay {
+  z-index: 100000;
+}
+
+/* ==================== RESPONSIVE PARA NOTIFICACIONES ==================== */
+@media (max-width: 768px) {
+  .toast-container {
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+
+  .toast {
+    min-width: auto;
+  }
+
+  .custom-confirm-box {
+    padding: 25px;
+    width: 95%;
+  }
+
+  .confirm-buttons {
+    flex-direction: column;
+  }
+
+  .confirm-btn {
+    width: 100%;
+  }
+}
+    
+    /* LOADING SPINNER */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    
+    .loading-overlay.active { display: flex; }
+    
+    .spinner {
+      border: 5px solid var(--light);
+      border-top: 5px solid var(--primary);
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* LOGIN PAGE */
+    .login-container {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .login-card {
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      animation: slideIn 0.5s ease;
+    }
+    
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .login-logo {
+      max-width: 200px;
+      margin-bottom: 20px;
+    }
+    
+    .login-title {
+      color: var(--secondary);
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .login-subtitle {
+      color: #666;
+      font-size: 14px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-label {
+      display: block;
+      color: var(--dark);
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .form-input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(33, 141, 49, 0.1);
+    }
+    
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      width: 100%;
+    }
+    
+    .btn-primary:hover {
+      background: var(--success);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(33, 141, 49, 0.3);
+    }
+
+    .btn-secondary {
+      background: var(--secondary);
+      color: var(--white);
+    }
+    
+    .btn-secondary:hover {
+      background: var(--accent);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    .alert {
+      padding: 12px 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+    
+    .alert.show { display: block; }
+    
+    .alert-error {
+      background: #fee;
+      border-left: 4px solid #c00;
+      color: #c00;
+    }
+    
+    .alert-success {
+      background: #efe;
+      border-left: 4px solid var(--primary);
+      color: var(--primary);
+    }
+    
+    .alert-info {
+      background: #eef;
+      border-left: 4px solid #06c;
+      color: #06c;
+    }
+    
+    /* MAIN APP */
+    .app-container {
+      display: none;
+    }
+    
+    .app-container.active {
+      display: block;
+    }
+    
+    /* HEADER */
+    .app-header {
+      background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
+      color: var(--white);
+      padding: 20px 0;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .header-logo img {
+      height: 50px;
+      filter: brightness(0) invert(1);
+    }
+    
+    .header-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .header-user {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .user-info {
+      text-align: right;
+    }
+    
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .user-role {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+    
+    .btn-logout {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: var(--white);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 14px;
+    }
+    
+    .btn-logout:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    
+    /* MAIN CONTENT */
+    .main-content {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    
+    /* HOME VIEW */
+    .home-view {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .home-title {
+      font-size: 32px;
+      color: var(--secondary);
+      margin-bottom: 15px;
+    }
+    
+    .home-subtitle {
+      font-size: 18px;
+      color: #666;
+      margin-bottom: 50px;
+    }
+    
+    .action-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    
+    .action-card {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 40px 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+    
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border-color: var(--primary);
+    }
+    
+    .action-card-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    
+    .action-card-title {
+      font-size: 22px;
+      color: var(--secondary);
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    .action-card-description {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    /* WIZARD STEPS */
+    .wizard-container {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    
+    .wizard-header {
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--light);
+      padding-bottom: 20px;
+    }
+    
+    .wizard-title {
+      font-size: 28px;
+      color: var(--secondary);
+      margin-bottom: 10px;
+    }
+    
+    .wizard-steps {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      position: relative;
+    }
+    
+    .wizard-steps::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #ddd;
+      z-index: 0;
+    }
+    
+    .wizard-step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #ddd;
+      color: #999;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      margin-bottom: 8px;
+      transition: all 0.3s;
+    }
+    
+    .wizard-step.active .step-number {
+      background: var(--primary);
+      color: var(--white);
+    }
+    
+    .wizard-step.completed .step-number {
+      background: var(--success);
+      color: var(--white);
+    }
+    
+    .step-label {
+      font-size: 12px;
+      color: #999;
+    }
+    
+    .wizard-step.active .step-label {
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .wizard-body {
+      margin: 30px 0;
+    }
+    
+    .wizard-step-content {
+      display: none;
+    }
+    
+    .wizard-step-content.active {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .form-group-full {
+      grid-column: 1 / -1;
+    }
+    
+    textarea.form-input {
+      min-height: 100px;
+      resize: vertical;
+      font-family: inherit;
+    }
+    
+    .required {
+      color: #c00;
+      margin-left: 3px;
+    }
+    
+    .wizard-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid var(--light);
+    }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+    }
+    
+    /* SEARCH VIEW - CORREGIDO */
+    .search-container {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+      align-items: stretch;
+    }
+
+    .search-box .form-input {
+      flex: 1;
+      min-width: 0;
+      font-size: 16px;
+      padding: 14px 20px;
+    }
+
+    .search-box .btn {
+      flex: 0 0 auto;
+      width: 140px;
+      min-width: 140px;
+      padding: 14px 20px;
+      white-space: nowrap;
+    }
+
+    .results-container {
+      margin-top: 30px;
+    }
+    
+    .result-card {
+      background: var(--white);
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .result-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 10px;
+    }
+    
+    .result-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--secondary);
+    }
+    
+    .result-badge {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .badge-activo {
+      background: #efe;
+      color: var(--success);
+    }
+    
+    .result-info {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+    
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 30px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlideIn 0.3s;
+    }
+    
+    @keyframes modalSlideIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--light);
+    }
+    
+    .modal-title {
+      font-size: 22px;
+      color: var(--secondary);
+      font-weight: bold;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #999;
+      line-height: 1;
+      padding: 0;
+      width: 30px;
+      height: 30px;
+    }
+    
+    .modal-close:hover {
+      color: #333;
+    }
+    
+    .modal-body {
+      margin: 20px 0;
+    }
+    
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid var(--light);
+    }
+    
+    /* DYNAMIC RECORDS */
+    .records-container {
+      margin-top: 20px;
+    }
+    
+    .record-item {
+      background: var(--light);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      border-left: 4px solid var(--primary);
+    }
+    
+    .record-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .record-number {
+      font-weight: bold;
+      color: var(--secondary);
+    }
+    
+    .btn-remove {
+      background: #fee;
+      color: #c00;
+      border: 1px solid #c00;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    
+    .btn-remove:hover {
+      background: #c00;
+      color: var(--white);
+    }
+    
+    .btn-add-record {
+      width: 100%;
+      margin-top: 15px;
+      background: var(--light);
+      color: var(--primary);
+      border: 2px dashed var(--primary);
+    }
+    
+    .btn-add-record:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-style: solid;
+    }
+    
+    .seccion {
+      margin-bottom: 20px;
+    }
+    
+    /* FOOTER */
+    .app-footer {
+      background: var(--secondary);
+      color: var(--white);
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+      font-size: 14px;
+      position: relative; /* Agregar si no existe */
+      z-index: 1; /* IMPORTANTE: z-index bajo */
+    }
+
+    .custom-confirm-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 100000; /* MUY ALTO - Debe ser el más alto de todos */
+      animation: fadeIn 0.2s ease;
+    }
+        
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+      
+      .header-user {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      .action-cards {
+        grid-template-columns: 1fr;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .wizard-footer {
+        flex-direction: column;
+        gap: 15px;
+      }
+      
+      .btn-group {
+        width: 100%;
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+
+      .search-box {
+        flex-direction: row;
+        gap: 10px;
+      }
+      
+      .search-box .btn {
+        width: 100px;
+        min-width: 100px;
+        font-size: 14px;
+        padding: 12px 16px;
+      }
+      
+      .search-box .form-input {
+        font-size: 14px;
+        padding: 12px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .search-box {
+        flex-direction: column;
+      }
+      
+      .search-box .btn {
+        width: 100%;
+      }
+    }
+
+    .app-footer {
+      z-index: 1;
+    }
+
+    /* Nivel 6: Loading overlay (AHORA ES EL MÁS ALTO) */
+    .loading-overlay,
+    .custom-loading-overlay {
+      z-index: 999999; /* Mayor que el modal y las alertas */
+    }
+
+    /* Nivel 3: Toasts */
+    .toast-container {
+      z-index: 9999;
+    }
+
+    /* Nivel 4: Modales dinámicos */
+    .modal {
+      z-index: 99999;
+    }
+
+    /* Nivel 5: Modal de confirmación (el más alto) */
+    .custom-confirm-overlay {
+      z-index: 100000;
+    }
+    
+    /* UTILITIES */
+    .hidden { display: none !important; }
+    .text-center { text-align: center; }
+    .mt-20 { margin-top: 20px; }
+    .mb-20 { margin-bottom: 20px; }
+
+    /* ESTILOS PARA ACORDEÓN (DESPLEGABLES) */
+    .accordion-header {
+      background: var(--light);
+      padding: 15px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      transition: all 0.3s;
+    }
+
+    .accordion-header:hover {
+      background: #e0e0e0;
+      border-color: var(--primary);
+    }
+
+    .accordion-title {
+      color: var(--secondary);
+      font-weight: bold;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .accordion-icon {
+      font-size: 18px;
+      transition: transform 0.3s ease;
+      color: var(--primary);
+    }
+
+    /* Clase para rotar la flecha cuando está abierto */
+    .accordion-header.active .accordion-icon {
+      transform: rotate(180deg);
+    }
+
+    /* El contenedor del contenido que se oculta/muestra */
+    .accordion-content {
+      display: none; /* Oculto por defecto */
+      padding: 10px 5px;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    .accordion-content.show {
+      display: block; /* Visible cuando tiene la clase show */
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="app">
+  <div v-if="loading" class="loading">
+    <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+  </div>
+
+  <div v-if="!user.existe">
+    
+    <div v-if="loading" class="loading-overlay" id="loadingOverlay" style="display: flex; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; justify-content: center; align-items: center; background: rgba(255,255,255,0.8);">
+      <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;"></div>
+    </div>
+
+    <div class="login-container" id="loginContainer">
+      <div class="login-card">
+        
+        <div v-if="loginMode === 'login'">
+          <div class="login-header">
+            <img src="https://opperar.com/wp-content/uploads/2024/03/logo-opperar-1-optimized.webp" alt="OPPERAR Logo" class="login-logo">
+            <h1 class="login-title">Sistema de Gestión del Plan de Trabajo</h1>
+            <p class="login-subtitle">Plan de Trabajo</p> 
+          </div>
+          
+          <div v-if="loginError" class="alert alert-error" id="loginAlert" style="display: block;">
+            {{ loginError }}
+          </div>
+          
+          <form id="loginForm" @submit.prevent="iniciarSesion">
+            <div class="form-group">
+              <label class="form-label" for="loginUsuario">Usuario</label>
+              <input type="text" id="loginUsuario" class="form-input" v-model="loginForm.usuario" placeholder="Ingrese su usuario" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="loginPassword">Contraseña</label>
+              <input type="password" id="loginPassword" class="form-input" v-model="loginForm.contrasena" placeholder="Ingrese su contraseña" required autocomplete="current-password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              Iniciar Sesión
+            </button>
+          </form>
+          
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="#" @click.prevent="loginMode = 'cambiar'" style="color: var(--accent, #C15E0E); text-decoration: none; font-size: 14px;">
+              ¿Cambiar contraseña?
+            </a>
+          </div>
+        </div>
+
+        <div v-if="loginMode === 'cambiar'">
+          <div class="login-header">
+            <h1 class="login-title">Renovar Acceso</h1>
+            <p class="login-subtitle">Actualiza tu contraseña de seguridad</p> 
+          </div>
+          
+          <div v-if="changePassError" class="alert alert-error" style="display: block;">
+            {{ changePassError }}
+          </div>
+          <div v-if="changePassSuccess" class="alert alert-success" style="display: block; background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+            {{ changePassSuccess }}
+          </div>
+
+          <form @submit.prevent="cambiarContrasena">
+            <div class="form-group">
+              <label class="form-label">Usuario</label>
+              <input type="text" class="form-input" v-model="changePassForm.usuario" placeholder="Ingrese su usuario" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contraseña Actual</label>
+              <input type="password" class="form-input" v-model="changePassForm.actual" placeholder="Contraseña actual" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nueva Contraseña</label>
+              <input type="password" class="form-input" v-model="changePassForm.nueva" placeholder="Nueva contraseña" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" :disabled="loading">
+              Actualizar Contraseña
+            </button>
+          </form>
+
+          <div style="text-align: center; margin-top: 20px;">
+            <a href="#" @click.prevent="loginMode = 'login'" style="color: #666; text-decoration: none; font-size: 14px;">
+              ← Volver al Login
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div v-else>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4 shadow-sm" style="background-color: #218D31 !important;">
+      <div class="container-fluid px-3">
+        
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="#" style="color: #ffffff !important;">
+          <i class="bi bi-shield-check me-2 text-white"></i> SG-SST
+        </a>
+        
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white" :class="{active: view==='execution', 'fw-bold': view==='execution'}" @click="changeView('execution')">
+                <i class="bi bi-list-check"></i> Mis Tareas
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-white" :class="{active: view==='planning', 'fw-bold': view==='planning'}" @click="changeView('planning')">
+                <i class="bi bi-calendar-week"></i> Planeación Masiva
+              </a>
+            </li>
+            <li class="nav-item" >
+              <a class="nav-link text-white" :class="{active: view==='dashboard', 'fw-bold': view==='dashboard'}" @click="changeView('dashboard')">
+                <i class="bi bi-speedometer2"></i> Dashboard
+              </a>
+            </li>
+            <li class="nav-item" v-if="isAdmin">
+              <a class="nav-link text-white" :class="{active: view==='config', 'fw-bold': view==='config'}" @click="changeView('config')">
+                <i class="bi bi-plus-circle"></i> Crear Actividad
+              </a>
+            </li>
+          </ul>
+          
+          <div class="d-flex align-items-center bg-white bg-opacity-25 px-3 py-1 rounded-pill border border-light border-opacity-50">
+            <div class="text-white small text-end me-3">
+              <div class="fw-bold">{{ user.nombre }}</div>
+              <div class="opacity-75" style="font-size: 0.70rem;">{{ user.rol }}</div>
+            </div>
+            <button class="btn btn-sm shadow-sm" style="background-color: #C15E0E !important; color: white; border: none;" @click="cerrarSesion" title="Salir">
+                <i class="bi bi-box-arrow-right fw-bold"></i>
+            </button>
+          </div>
+        </div>
+        
+      </div>
+    </nav>
+
+    <div class="container-fluid px-4">
+
+      <div v-if="view === 'execution'">
+        <div class="card p-3 mb-4 shadow-sm border-0">
+          <div class="row g-2 align-items-end">
+            <div class="col-md-2">
+              <label class="small fw-bold text-muted">Mes</label>
+              <select class="form-select form-select-sm" v-model="filters.mes" @change="fetchTasks">
+                <option value="todos">Todos</option>
+                <option v-for="m in months" :value="m.id">{{ m.name }}</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="small fw-bold text-muted">Estado</label>
+              <select class="form-select form-select-sm" v-model="filters.estado" @change="fetchTasks">
+                <option value="todos">Todos</option>
+                  <option>PLANEADO</option>  
+                  <option>INICIADO</option>  
+                  <option>TERMINADO</option>  
+                  <option>AVANCE PARCIAL</option>  
+                  <option>NO EJECUTADO</option>
+                  <option>REPROGRAMADO</option> <!-- NUEVA OPCIÓN -->
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="small fw-bold text-muted">Buscar Actividad</label>
+              <input type="text" class="form-control form-control-sm" 
+                    placeholder="Escriba nombre..." 
+                    v-model="filters.actividad" 
+                    @input="fetchTasks">
+            </div>
+            <div class="col-md-3">
+              <label class="small fw-bold text-muted">Sede / Operación</label>
+                <select class="form-select form-select-sm" v-model="filters.op" @change="fetchTasks">
+                  <option value="todas">Todas</option>
+                  <option v-for="op in planningData.misOperaciones" :key="op.id" :value="op.id">
+                    {{ op.nombre }}
+                  </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+              <label class="small fw-bold text-muted">Programa</label>
+              <select class="form-select form-select-sm" v-model="filters.prog" @change="fetchTasks">
+                <option value="todos">Todos</option>
+                <option v-for="p in lists.programas" :value="p">{{ p }}</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="small fw-bold text-muted">Plan de Trabajo</label>
+              <select class="form-select form-select-sm border-success" v-model="filters.pdt" @change="fetchTasks">
+                <option value="todos">Todos</option>
+                <option v-for="p in lists.pdts" :value="p">{{ p }}</option>
+              </select>
+            </div>
+            <div class="col-md-2" v-if="isAdmin">
+              <label class="small fw-bold text-primary">Analista (Admin)</label>
+              <select 
+                class="form-select form-select-sm border-primary" 
+                v-model="filters.analista" 
+                @change="fetchTasks">
+                
+                <option value="todos">Todos los Analistas</option>
+                
+                <option v-for="a in lists.analistas" :key="a.email" :value="a.email">
+                  {{ a.nombre }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end gap-2">
+              <button class="btn btn-outline-secondary btn-sm" @click="limpiarFiltros" title="Limpiar Filtros">
+                <i class="bi bi-eraser"></i>
+              </button>
+              <button class="btn btn-primary btn-sm flex-grow-1" @click="fetchTasks">
+                <i class="bi bi-filter"></i> Filtrar
+              </button>
+            </div>
+            <div class="row mb-3" v-if="tareasModificadas.length > 0">
+              <div class="col-12 text-end">
+                <button class="btn btn-success shadow-sm" @click="guardarTodasModificadas">
+                  <i class="bi bi-cloud-arrow-up-fill"></i> Guardar {{ tareasModificadas.length }} Cambios
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div v-if="tasks.length > 0">
+          <div class="card mb-3 shadow-sm border-0" v-for="grupo in tasksByMonth" :key="grupo.idMes">
+            <div class="card-header bg-white py-3 month-header d-flex justify-content-between align-items-center"
+                 @click="toggleMonth(grupo.idMes)">
+              <div class="d-flex align-items-center gap-2">
+                <i class="bi" :class="expandedMonths.includes(grupo.idMes) ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+                <h5 class="mb-0 fw-bold text-primary text-uppercase">{{ obtenerNombreMes(grupo.idMes) }}</h5>
+              </div>
+              <span class="badge bg-light text-dark border">{{ grupo.lista.length }} Tareas</span>
+            </div>
+            <div class="card-body bg-light" v-show="expandedMonths.includes(grupo.idMes)">
+              <div class="row g-3">
+                <div class="col-md-6 col-xl-4" v-for="t in grupo.lista" :key="t.idRegistro">
+                  <div class="card card-task p-3 shadow-sm bg-white h-100" :class="'status-'+t.estado.replace(' ', '_')">
+                    <div class="d-flex justify-content-between">
+                      <span class="badge-prog">{{ t.programa }}</span>
+                      <div class="d-flex gap-1">
+                        <button class="btn btn-outline-success btn-sm py-0 px-2" @click="saveTask(t)" title="Guardar"><i class="bi bi-check"></i></button>
+                        <button v-if="isAdmin" class="btn btn-outline-danger btn-sm py-0 px-2" @click="deleteTask(t)" title="Eliminar"><i class="bi bi-trash"></i></button>
+                      </div>
+                    </div>
+                    <div class="fw-bold text-dark mb-1">{{ t.actividad }}</div>
+                    <div class="d-flex flex-column text-muted mb-2" style="font-size: 0.75rem;">
+                      <span><i class="bi bi-geo-alt-fill text-danger"></i> {{ t.operacion }}</span>
+                      
+                      <span v-if="t.analista" class="fst-italic"><i class="bi bi-person-workspace text-primary"></i> Analista: {{ t.analista }}</span>
+                      <span v-if="t.auxiliar" class="fst-italic"><i class="bi bi-person-badge text-secondary"></i> Auxiliar: {{ t.auxiliar }}</span>
+                    </div>
+                    <div class="d-flex gap-1 mb-1">
+                      <select v-model="t.estado" @change="t.modificada = true" class="form-select form-select-sm py-0" style="font-size: 0.8rem;">
+                        <option>PLANEADO</option>  
+                        <option>INICIADO</option>  
+                        <option>TERMINADO</option>  
+                        <option>AVANCE PARCIAL</option>  
+                        <option>NO EJECUTADO</option>
+                        <option>REPROGRAMADO</option> <!-- NUEVA OPCIÓN -->
+                      </select>
+                    </div>
+                    <input type="text" class="form-control form-control-sm py-0 mb-1" style="font-size: 0.75rem;" placeholder="Observación..." v-model="t.observacion" @input="t.modificada = true">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-else class="text-center text-muted mt-5"><i class="bi bi-clipboard-x display-4"></i><p class="mt-2">Buscando tareas.</p></div>
+      </div>
+
+      <div v-if="view === 'dashboard'">
+        
+        <div class="row mb-4">
+          <div class="col-12">
+            <div class="card bg-primary text-white p-4 shadow-sm border-0">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="text-uppercase opacity-75 mb-1">Cumplimiento Global Empresa</h6>
+                  <h1 class="display-3 fw-bold mb-0">{{ dashboardData.kpiGlobal }}%</h1>
+                </div>
+                <i class="bi bi-trophy display-1 opacity-25"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h5 class="mb-3 text-danger fw-bold"><i class="bi bi-exclamation-triangle"></i> Alertas de Retraso</h5>
+        
+        <div class="card alert-card p-3 mb-3 shadow-sm">
+           <div class="d-flex justify-content-between align-items-center">
+              <div>
+                 <h6 class="text-danger fw-bold mb-0">Actividades Atrasadas (Vencidas)</h6>
+                 <small class="text-muted">Meses anteriores no finalizados</small>
+              </div>
+              <h2 class="text-danger fw-bold mb-0">{{ dashboardData.delays.total }}</h2>
+           </div>
+        </div>
+
+        <div class="card mb-2 border-0 shadow-sm alert-card">
+          <div class="card-header bg-white py-2 dash-header d-flex justify-content-between text-danger" @click="toggleDash('delayAnalista')">
+            <span class="fw-bold"><i class="bi bi-person-x me-2"></i> Retrasos por Analista</span>
+            <i class="bi" :class="dashState.delayAnalista ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.delayAnalista">
+            <table class="table table-hover table-dash mb-0">
+              <thead><tr><th>Analista</th><th class="text-end text-danger">Pendientes</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.delays.byAnalista">
+                  <td>{{ d.label }}</td>
+                  <td class="text-end fw-bold text-danger">{{ d.count }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-4 border-0 shadow-sm alert-card">
+          <div class="card-header bg-white py-2 dash-header d-flex justify-content-between text-danger" @click="toggleDash('delayOp')">
+            <span class="fw-bold"><i class="bi bi-building-exclamation me-2"></i> Retrasos por Operación</span>
+            <i class="bi" :class="dashState.delayOp ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.delayOp">
+            <table class="table table-hover table-dash mb-0">
+              <thead><tr><th>Operación</th><th class="text-end text-danger">Pendientes</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.delays.byOp">
+                  <td>{{ d.label }}</td>
+                  <td class="text-end fw-bold text-danger">{{ d.count }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-4 border-0 shadow-sm alert-card">  
+          <div class="card-header bg-white py-2 dash-header d-flex justify-content-between text-danger" @click="toggleDash('delayPdt')">  
+            <span class="fw-bold"><i class="bi bi-briefcase-exclamation me-2"></i> Retrasos por PDT</span>  
+            <i class="bi" :class="dashState.delayPdt ? 'bi-chevron-down' : 'bi-chevron-right'"></i>  
+          </div>  
+          <div class="card-body p-0" v-show="dashState.delayPdt">  
+            <table class="table table-hover table-dash mb-0">  
+              <thead><tr><th>Plan de Trabajo</th><th class="text-end text-danger">Pendientes</th></tr></thead>  
+              <tbody>  
+                <tr v-for="d in dashboardData.delays.byPdt">  
+                  <td>{{ d.label }}</td>  
+                  <td class="text-end fw-bold text-danger">{{ d.count }}</td>  
+                </tr>  
+              </tbody>  
+            </table>  
+          </div>  
+        </div>
+
+        <h5 class="mb-3 text-muted fw-bold"><i class="bi bi-table"></i> Detalles de Cumplimiento</h5>
+        
+        <div class="card mb-2 border-0 shadow-sm">
+          <div class="card-header bg-white py-3 dash-header d-flex justify-content-between" @click="toggleDash('analista')">
+            <span class="fw-bold"><i class="bi bi-person-badge me-2"></i> Por Analista</span>
+            <i class="bi" :class="dashState.analista ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.analista">
+            <table class="table table-striped table-hover table-dash mb-0">
+              <thead><tr><th>Analista</th><th class="text-end">Cumplimiento</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.byAnalista">
+                  <td>{{ d.label }}</td>
+                  <td class="text-end fw-bold" :class="getColorClass(d.value)">{{ d.value }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-2 border-0 shadow-sm">
+          <div class="card-header bg-white py-3 dash-header d-flex justify-content-between" @click="toggleDash('op')">
+            <span class="fw-bold"><i class="bi bi-building me-2"></i> Por Operación</span>
+            <i class="bi" :class="dashState.op ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.op">
+            <table class="table table-striped table-hover table-dash mb-0">
+              <thead><tr><th>Operación</th><th class="text-end">Cumplimiento</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.byOp">
+                  <td>{{ d.label }}</td>
+                  <td class="text-end fw-bold" :class="getColorClass(d.value)">{{ d.value }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-2 border-0 shadow-sm">
+          <div class="card-header bg-white py-3 dash-header d-flex justify-content-between" @click="toggleDash('mes')">
+            <span class="fw-bold"><i class="bi bi-calendar me-2"></i> Por Mes</span>
+            <i class="bi" :class="dashState.mes ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.mes">
+            <table class="table table-striped table-hover table-dash mb-0">
+              <thead><tr><th>Mes</th><th class="text-end">Cumplimiento</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.byMes">
+                  <td>{{ obtenerNombreMes(d.label) }}</td>
+                  <td class="text-end fw-bold" :class="getColorClass(d.value)">{{ d.value }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-4 border-0 shadow-sm">
+          <div class="card-header bg-white py-3 dash-header d-flex justify-content-between" @click="toggleDash('prog')">
+            <span class="fw-bold"><i class="bi bi-journal-text me-2"></i> Por Programa</span>
+            <i class="bi" :class="dashState.prog ? 'bi-chevron-down' : 'bi-chevron-right'"></i>
+          </div>
+          <div class="card-body p-0" v-show="dashState.prog">
+            <table class="table table-striped table-hover table-dash mb-0">
+              <thead><tr><th>Programa</th><th class="text-end">Cumplimiento</th></tr></thead>
+              <tbody>
+                <tr v-for="d in dashboardData.byProg">
+                  <td>{{ d.label }}</td>
+                  <td class="text-end fw-bold" :class="getColorClass(d.value)">{{ d.value }}%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card mb-4 border-0 shadow-sm">  
+          <div class="card-header bg-white py-3 dash-header d-flex justify-content-between" @click="toggleDash('pdt')">  
+            <span class="fw-bold"><i class="bi bi-briefcase me-2"></i> Por Plan de Trabajo</span>  
+            <i class="bi" :class="dashState.pdt ? 'bi-chevron-down' : 'bi-chevron-right'"></i>  
+          </div>  
+          <div class="card-body p-0" v-show="dashState.pdt">  
+            <table class="table table-striped table-hover table-dash mb-0">  
+              <thead><tr><th>Plan de Trabajo</th><th class="text-end">Cumplimiento</th></tr></thead>  
+              <tbody>  
+                <tr v-for="d in dashboardData.byPdt">  
+                  <td>{{ d.label }}</td>  
+                  <td class="text-end fw-bold" :class="getColorClass(d.value)">{{ d.value }}%</td>  
+                </tr>  
+              </tbody>  
+            </table>  
+          </div>  
+        </div>
+
+        <h5 class="mb-3 text-muted fw-bold"><i class="bi bi-graph-up"></i> Gráficos de Indicadores</h5>  
+        <div class="row g-4 mb-5">
+          <div class="col-md-6">  
+            <div class="card p-3 border-0 shadow-sm h-100">  
+              <h6 class="text-center fw-bold text-secondary mb-3">Por Analista</h6>  
+              <!-- EL CONTENEDOR RELATIVO CON ALTURA FIJA ES LA SOLUCIÓN -->
+              <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="chartAnalista"></canvas>  
+              </div>
+            </div>  
+          </div>
+          <div class="col-md-6">  
+            <div class="card p-3 border-0 shadow-sm h-100">  
+              <h6 class="text-center fw-bold text-secondary mb-3">Por Operación (Top 10)</h6>  
+              <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="chartOp"></canvas>  
+              </div>
+            </div>  
+          </div>
+          <div class="col-md-6">  
+            <div class="card p-3 border-0 shadow-sm h-100">  
+              <h6 class="text-center fw-bold text-secondary mb-3">Por Mes</h6>  
+              <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="chartMes"></canvas>  
+              </div>
+            </div>  
+          </div>
+          <div class="col-md-6">  
+            <div class="card p-3 border-0 shadow-sm h-100">  
+              <h6 class="text-center fw-bold text-secondary mb-3">Por Programa (Top 10)</h6>  
+              <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="chartProg"></canvas>  
+              </div>
+            </div>  
+          </div>
+          <div class="col-md-6">  
+            <div class="card p-3 border-0 shadow-sm h-100">  
+              <h6 class="text-center fw-bold text-secondary mb-3">Por Plan de Trabajo</h6>  
+              <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="chartPdt"></canvas>  
+              </div>
+            </div>  
+          </div>
+        </div>
+
+      </div>
+
+      <div v-if="view === 'planning'">
+        <h4 class="mb-3">Planeación Masiva</h4>
+        <div class="card p-4 shadow-sm border-0">
+          <div class="mb-3">
+            <label class="form-label fw-bold">1. Seleccionar Actividad a Programar</label>
+            <select class="form-select" v-model="plan.idActividad">
+              <option v-for="a in planningData.actividades" :value="a.id">{{ a.nombre }} ({{ a.programa }})</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-bold">2. ¿Cómo desea asignar las operaciones?</label>
+            <div class="d-flex gap-3 mb-2">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" v-model="plan.modoAsignacion" value="individual" id="modoInd">
+                <label class="form-check-label" for="modoInd">Sedes Individuales</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" v-model="plan.modoAsignacion" value="proceso" id="modoProc">
+                <label class="form-check-label" for="modoProc">Por Tipo de Proceso</label>
+              </div>
+            </div>
+
+            <div v-if="plan.modoAsignacion === 'individual'">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" @change="toggleAllOps" id="allOps">
+                <label class="form-check-label" for="allOps">Seleccionar Todas</label>
+              </div>
+              <div class="border p-2 rounded bg-light" style="max-height: 150px; overflow-y: auto;">
+                <div class="form-check" v-for="op in planningData.misOperaciones" :key="op.id">
+                  <input class="form-check-input" type="checkbox" :value="op.id" v-model="plan.operaciones">
+                  <label class="form-check-label">{{ op.nombre }}</label>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="plan.modoAsignacion === 'proceso'">
+              <label class="small text-muted">Seleccione los procesos que recibirán la actividad:</label>
+              <div class="border p-2 rounded bg-light">
+                <div class="form-check" v-for="proc in listaProcesosUnicos" :key="proc">
+                  <input class="form-check-input" type="checkbox" :value="proc" v-model="plan.procesosSeleccionados">
+                  <label class="form-check-label">{{ proc }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-bold">3. Meses de Ejecución</label>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="btn-group-toggle" v-for="m in months" :key="m.id">
+                <input type="checkbox" class="btn-check" :id="'btn-check-'+m.id" :value="m.id" v-model="plan.meses">
+                <label class="btn btn-outline-primary btn-sm" :for="'btn-check-'+m.id">{{ m.name.substring(0,3) }}</label>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-success w-100" @click="submitPlan" :disabled="!isValidPlan">
+            <i class="bi bi-check-circle"></i> Guardar Planeación
+          </button>
+        </div>
+      </div>
+
+      <div v-if="view === 'config' && isAdmin">
+        <h4 class="mb-3">Crear Nueva Actividad</h4>
+        <div class="card p-4 shadow-sm border-0" style="max-width: 600px; margin:0 auto;">
+          <div class="mb-2">
+            <label class="form-label">Programa</label>
+            <select class="form-select" v-model="newActivity.programa">
+              <option v-for="p in programasList" :value="p">{{ p }}</option>
+            </select>
+          </div>
+          <div class="mb-2">
+            <label class="form-label">Nombre de la Actividad</label>
+            <input type="text" class="form-control" v-model="newActivity.descripcion">
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label">Meta (%)</label>
+              <input type="number" class="form-control" v-model="newActivity.meta" step="0.1">
+            </div>
+            <div class="col-6">
+              <label class="form-label">Tipo</label>
+              <select class="form-select" v-model="newActivity.tipo">
+                <option>Operativo</option><option>Estratégico</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary w-100" @click="createActivity">Crear Actividad</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  const { createApp } = Vue;
+
+  createApp({
+    data() {
+      return {
+        loading: false, // Inicio en false para mostrar login
+        user: { existe: false }, // Inicio desconectado
+        // DATOS LOGIN
+        loginForm: { usuario: '', contrasena: '' },
+        loginError: '',
+        
+        // NUEVAS VARIABLES PARA EL CAMBIO DE CONTRASEÑA
+        loginMode: 'login', // Controla qué vista mostrar ('login' o 'cambiar')
+        changePassForm: { usuario: '', actual: '', nueva: '' },
+        changePassError: '',
+        changePassSuccess: '',
+        
+        view: 'execution',
+        tasks: [],
+        expandedMonths: [], 
+        dashState: { analista: false, op: false, mes: false, prog: false, pdt: false, delayAnalista: false, delayOp: false, delayPdt: false },
+        
+        filters: { mes: 'todos', op: 'todas', prog: 'todos', analista: 'todos', estado:'todos', actividad: '', pdt: 'todos'},
+        lists: { programas: [], analistas: [], pdts: [] },
+        
+        months: [
+          {id:1, name:'Enero'}, {id:2, name:'Febrero'}, {id:3, name:'Marzo'},
+          {id:4, name:'Abril'}, {id:5, name:'Mayo'}, {id:6, name:'Junio'},
+          {id:7, name:'Julio'}, {id:8, name:'Agosto'}, {id:9, name:'Septiembre'},
+          {id:10, name:'Octubre'}, {id:11, name:'Noviembre'}, {id:12, name:'Diciembre'}
+        ],
+        planningData: { actividades: [], misOperaciones: [] },
+        plan: { idActividad: '', operaciones: [], meses: [], anio: 2026, modoAsignacion: 'individual', procesosSeleccionados: []},
+        dashboardData: { kpiGlobal: 0, byAnalista: [], byOp: [], byProg: [], byMes: [], byPdt: [], delays: { total:0, byAnalista:[], byOp:[], byPdt:[] } },
+        charts: {}, 
+        programasList: [],
+        newActivity: { programa: '', descripcion: '', meta: 0.8, tipo: 'Operativo' }
+      }
+    },
+    computed: {
+      listaProcesosUnicos() {
+        // Obtenemos los procesos de las operaciones cargadas (Columna B de la hoja)
+        const procesos = this.planningData.misOperaciones.map(o => o.proceso);
+        return [...new Set(procesos)].filter(p => p); 
+      },
+      isAdmin() { return this.user.rol === 'ADMINISTRADOR' || this.user.rol === 'ADMIN'; },
+      isValidPlan() {
+        const destinoOk = this.plan.modoAsignacion === 'individual' 
+          ? this.plan.operaciones.length > 0 
+          : this.plan.procesosSeleccionados.length > 0;
+        return this.plan.idActividad && destinoOk && this.plan.meses.length > 0;
+      },
+
+      tareasModificadas() {
+        return this.tasks.filter(t => t.modificada);
+      },
+      
+      tasksByMonth() {
+        const groups = {};
+        this.tasks.forEach(t => {
+          if (!groups[t.mes]) groups[t.mes] = [];
+          groups[t.mes].push(t);
+        });
+        return Object.keys(groups).sort((a,b) => a-b).map(id => {
+          return { idMes: parseInt(id), lista: groups[id] };
+        });
+      }
+    },
+    methods: {
+      // NUEVO: MÉTODO DE LOGIN
+      iniciarSesion() {
+        this.loading = true;
+        this.loginError = '';
+        
+        google.script.run.withSuccessHandler(res => {
+          this.loading = false;
+          if(res.existe) {
+            this.user = res;
+            // Cargar datos iniciales
+            this.fetchFiltersLists();
+            this.fetchPlanningData();
+            this.fetchTasks();
+          } else {
+            this.loginError = res.error;
+          }
+        }).validarLogin(this.loginForm.usuario, this.loginForm.contrasena);
+      },
+
+      // NUEVA FUNCIÓN: Cerrar Sesión con confirmación y colores Opperar
+      cerrarSesion() {
+        Swal.fire({
+          title: '¿Cerrar sesión?',
+          text: "¿Estás seguro de que quieres salir de la aplicación?",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#218D31', // Verde Opperar
+          cancelButtonColor: '#003645', // Teal Opperar
+          confirmButtonText: 'Sí, salir',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.user = { existe: false };
+            this.loginForm = { usuario: '', contrasena: '' };
+            this.tasks = []; // O allTasks si aplicaste el filtro en el cliente
+            this.view = 'execution';
+          }
+        });
+      },
+
+      // NUEVA FUNCIÓN: Ejecuta el cambio de contraseña
+      cambiarContrasena() {
+        if(!this.changePassForm.usuario || !this.changePassForm.actual || !this.changePassForm.nueva) {
+          this.changePassError = "Por favor, completa todos los campos.";
+          return;
+        }
+        
+        this.loading = true;
+        this.changePassError = '';
+        this.changePassSuccess = '';
+        
+        google.script.run.withSuccessHandler(res => {
+          this.loading = false;
+          if(res.success) {
+            this.changePassSuccess = "¡Contraseña actualizada con éxito!";
+            // Volver al login automáticamente después de 2 segundos
+            setTimeout(() => {
+              this.loginMode = 'login';
+              this.changePassSuccess = '';
+              this.changePassForm = { usuario: '', actual: '', nueva: '' }; // Limpiar formulario
+              this.loginForm.usuario = ''; // Limpiar login por seguridad
+              this.loginForm.contrasena = '';
+            }, 2000);
+          } else {
+            this.changePassError = res.error;
+          }
+        }).cambiarContrasenaUsuario(this.changePassForm.usuario, this.changePassForm.actual, this.changePassForm.nueva);
+      },
+
+      obtenerNombreMes(id) {
+        const m = this.months.find(x => x.id == id);
+        return m ? m.name : 'Mes ' + id;
+      },
+      
+      toggleMonth(idMes) {
+        const idx = this.expandedMonths.indexOf(idMes);
+        if (idx === -1) this.expandedMonths.push(idMes);
+        else this.expandedMonths.splice(idx, 1);
+      },
+
+      toggleDash(section) {
+        this.dashState[section] = !this.dashState[section];
+      },
+
+      getColorClass(val) {
+        if(val >= 90) return 'text-success';
+        if(val >= 70) return 'text-warning';
+        return 'text-danger';
+      },
+
+      changeView(v) {
+        this.view = v;
+        // Forzamos la carga de operaciones al entrar a ejecución o planeación
+        if(v === 'execution' || v === 'planning') {
+          this.fetchPlanningData(); 
+        }
+        if(v === 'dashboard') this.fetchDashboard();
+        if(v === 'config') this.fetchConfigData();
+      },
+            
+      fetchTasks() {  
+        this.loading = true;  
+        google.script.run.withSuccessHandler(res => {  
+          this.tasks = res.map(t => ({...t, modificada: false}));   
+          this.expandedMonths = [];  
+          this.loading = false;  
+        }).obtenerMisTareas(  
+            this.user.email, this.user.rol,   
+            this.filters.mes, this.filters.op, this.filters.prog,  
+            this.filters.analista, this.filters.estado, this.filters.actividad,
+            this.filters.pdt // <-- ESTA VARIABLE
+        );  
+      },
+      // NUEVA FUNCIÓN: Restablecer filtros
+      limpiarFiltros() {
+        this.filters = { 
+          mes: 'todos', 
+          op: 'todas', 
+          prog: 'todos', 
+          analista: 'todos', 
+          estado: 'todos', 
+          actividad: '' 
+        };
+        this.fetchTasks();
+      },
+
+      fetchFiltersLists() {
+        google.script.run.withSuccessHandler(res => {
+          this.lists = res;
+        }).obtenerListasFiltros();
+      },
+
+      /*
+       * Function: saveTask
+       * 
+       * Envía la actualización de una tarea individual al backend y procesa 
+       * alertas visuales (SweetAlert) dependiendo de si la tarea fue guardada 
+       * o desplazada de mes por Anti-Colisión.
+       */
+
+      saveTask(t) {  
+        this.loading = true; // Mostramos loading porque la tarea podría desaparecer de la vista
+        google.script.run.withSuccessHandler((res) => {  
+          this.loading = false;
+          if(res.success) {
+            Swal.fire({
+                toast: true, 
+                icon: res.reprogramada ? 'info' : 'success', 
+                title: res.msg, 
+                position: 'top-end', 
+                showConfirmButton: false, 
+                timer: 3000
+            });  
+            t.modificada = false; 
+            
+            // Si la tarea fue reprogramada, recargamos la lista para que "desaparezca" de este mes
+            if(res.reprogramada) {
+               this.fetchTasks();
+            }
+          }
+        // Dentro de saveTask(t)
+        }).actualizarEstadoTarea(t.idRegistro, t.estado, t.observacion, t.evidencia, this.user.rol, this.user.email);
+      },
+
+      // NUEVA FUNCIÓN: Guardar todo de golpe
+      guardarTodasModificadas() {  
+        if(this.tareasModificadas.length === 0) return;  
+          
+        this.loading = true;  
+        const payload = JSON.parse(JSON.stringify(this.tareasModificadas));  
+          
+        google.script.run.withSuccessHandler(res => {  
+          if(res.success) {  
+            // 1. Mensaje principal de éxito
+            let msgs = `Se actualizaron ${res.count} tareas.`;
+            if (res.reprogramadas > 0) {
+              msgs += `<br>Se reprogramaron ${res.reprogramadas} al mes siguiente.`;
+            }
+            
+            // 2. Evaluar si hubo errores / bloqueos lógicos
+            if (res.errores && res.errores.length > 0) {
+              // Hubo bloqueos. Mostramos un modal detallado.
+              let listaErrores = res.errores.map(e => `<li>${e}</li>`).join('');
+              
+              Swal.fire({
+                icon: 'warning',
+                title: 'Atención con algunas tareas',
+                html: `<p>${msgs}</p>
+                       <p class="text-danger fw-bold mt-3">Las siguientes tareas no se pudieron reprogramar:</p>
+                       <ul style="text-align: left; font-size: 0.85rem;">${listaErrores}</ul>`,
+                confirmButtonColor: '#003645'
+              });
+            } else {
+              // Todo perfecto. Mostramos el toast rápido.
+              Swal.fire({  
+                toast: true, icon: 'success',   
+                title: msgs,   
+                position: 'top-end', showConfirmButton: false, timer: 3500  
+              });  
+            }
+            
+            // Si hubo reprogramaciones O bloqueos, forzamos recarga visual completa
+            // para que los selectores vuelvan a la realidad de la base de datos
+            if(res.reprogramadas > 0 || (res.errores && res.errores.length > 0)) {
+                this.fetchTasks();
+            } else {
+                this.tareasModificadas.forEach(t => t.modificada = false);  
+                this.loading = false;
+            }
+          }  
+        // Al final de la función, en el google.script.run
+        }).actualizarTareasMasivo(payload, this.user.rol, this.user.email); // <- Agregamos el email
+      },
+
+      deleteTask(t) {
+        Swal.fire({
+          title: '¿Eliminar tarea?',
+          text: "No podrás revertir esto.",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#d33',
+          cancelButtonColor: '#3085d6',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            google.script.run.withSuccessHandler(res => {
+              if (res.success) {
+                Swal.fire('Eliminada', 'La tarea ha sido borrada.', 'success');
+                this.fetchTasks(); 
+              } else {
+                Swal.fire('Error', 'No se pudo eliminar.', 'error');
+              }
+            // Dentro de deleteTask(t)
+            }).eliminarTarea(t.idRegistro, this.user.email);
+          }
+        });
+      },
+
+      fetchPlanningData() {
+        if(this.view !== 'execution') this.loading = true; 
+        google.script.run.withSuccessHandler(res => {
+          this.planningData = res;
+          this.loading = false;
+        }).obtenerDatosPlaneacion(
+            this.user.email, // <--- NUEVO
+            this.user.rol    // <--- NUEVO
+        );
+      },
+      
+      toggleAllOps(e) {
+        if(e.target.checked) this.plan.operaciones = this.planningData.misOperaciones.map(o => o.id);
+        else this.plan.operaciones = [];
+      },
+      submitPlan() {
+        this.loading = true;
+        google.script.run.withSuccessHandler(res => {
+          this.loading = false;
+          Swal.fire('¡Éxito!', `Se crearon ${res.total} tareas.`, 'success');
+          this.plan.operaciones = []; this.plan.meses = [];
+        }).guardarPlaneacionMasiva(JSON.parse(JSON.stringify(this.plan)));
+      },
+      
+      fetchDashboard() {
+        this.loading = true;
+        google.script.run.withSuccessHandler(res => {
+          this.dashboardData = res;
+          this.loading = false;
+          setTimeout(() => this.renderAllCharts(), 300); 
+        }).obtenerDatosDashboard();
+      },
+
+      // DASHBOARD: Gráficos con Paleta Opperar
+      // DASHBOARD: Gráficos con Paleta Opperar  
+      renderAllCharts() {  
+        Object.values(this.charts).forEach(c => c.destroy());  
+        this.charts = {};
+
+        // Se agrega parámetro "showAll" (por defecto false)
+        const createChart = (id, data, label, color, borderColor, showAll = false) => {  
+          const ctx = document.getElementById(id);  
+          if(!ctx) return;  
+          
+          // Si showAll es verdadero, no corta el arreglo a 15, muestra todo
+          const slicedData = (showAll || data.length <= 15) ? data : data.slice(0, 15);  
+             
+          this.charts[id] = new Chart(ctx, {  
+            type: 'bar',  
+            data: {  
+              labels: slicedData.map(d => id==='chartMes' ? this.obtenerNombreMes(d.label) : d.label),  
+              datasets: [{  
+                label: label,  
+                data: slicedData.map(d => d.value),  
+                backgroundColor: color,  
+                borderColor: borderColor || color,  
+                borderWidth: 1,  
+                borderRadius: 4  
+              }]  
+            },  
+            options: {  
+              indexAxis: 'y', // <--- ESTO CONVIERTE EL GRÁFICO EN HORIZONTAL
+              responsive: true,
+              maintainAspectRatio: false, // <--- Ayuda a que se adapte al contenedor sin aplastarse
+              scales: { 
+                x: { beginAtZero: true, max: 100 } // <--- El límite de 100% ahora va en el eje X
+              }  
+            }  
+          });  
+        };
+
+        const verdePrimario = '#218D31';  
+        const tealSecundario = '#003645';  
+        const naranjaAcento = '#C15E0E';  
+        const tealHover = '#095262';
+        const grisPdt = '#64748b';
+
+        // Al pasar "true" al final, forzamos que se muestren TODOS los analistas
+        createChart('chartAnalista', this.dashboardData.byAnalista, '% Cumplimiento', verdePrimario, verdePrimario, true);  
+        
+        createChart('chartOp', this.dashboardData.byOp, '% Cumplimiento', tealSecundario);  
+        createChart('chartMes', this.dashboardData.byMes, '% Cumplimiento', naranjaAcento);  
+        createChart('chartProg', this.dashboardData.byProg, '% Cumplimiento', tealHover);  
+        createChart('chartPdt', this.dashboardData.byPdt, '% Cumplimiento', grisPdt); 
+      },
+
+      fetchConfigData() {
+        google.script.run.withSuccessHandler(res => this.programasList = res).obtenerListaProgramas();
+      },
+      createActivity() {  
+        if(!this.newActivity.descripcion) return;  
+        this.loading = true;  
+        google.script.run.withSuccessHandler(() => {  
+          this.loading = false;  
+          Swal.fire('Creada', 'Actividad agregada al catálogo', 'success');  
+          this.newActivity.descripcion = '';  
+        }).crearNuevaActividad(JSON.parse(JSON.stringify(this.newActivity)), this.user.email); // <- Enviamos el email  
+      }
+    },
+    
+    // NOTA: init ya no se llama automáticamente, ahora empieza en Login
+    mounted() {
+      // Se queda esperando login
+    }
+  }).mount('#app');
+</script>
+</body>
+</html>

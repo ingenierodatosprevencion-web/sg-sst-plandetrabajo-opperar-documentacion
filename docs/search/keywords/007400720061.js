@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("tra",["Section"],[["Trabajo",,[[,"Generador de Plan de Trabajo Masivo",,,0,"File:CargaMasiva.js:Generador_de_Plan_de_Trabajo_Masivo"]]],["Transaccionales",,[[,"Tablas Transaccionales",,,0,"File:Arquitectura.txt:Tablas_Transaccionales"]]]]);

@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("arq",["Section"],[["Arquitectura",,[[,"Arquitectura de Base de Datos SG-SST",,,0,"File:Arquitectura.txt:Arquitectura_de_Base_de_Datos_SG-SST"]]]]);

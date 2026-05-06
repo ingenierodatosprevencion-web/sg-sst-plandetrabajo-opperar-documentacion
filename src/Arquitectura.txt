@@ -1,0 +1,14 @@
+Title: Arquitectura de Base de Datos SG-SST
+
+El aplicativo utiliza Google Sheets como motor relacional.
+
+Section: Tablas Estructurales
+
+- *TBL_USUARIOS*: Control de acceso.
+- *TBL_OPERACIONES*: Catálogo de sedes. Relación de 1 a N con analistas separados por comas.
+- *TBL_ACTIVIDADES*: Catálogo maestro que incluye la columna clave TIPO_PDT.
+
+Section: Tablas Transaccionales
+
+- *TBL_PLAN_TRABAJO*: Almacena las tareas individuales cruzando ID_OP e ID_ACT.
+- *TBL_LOG_AUDITORIA*: Registro de eventos (CREATE, UPDATE).

@@ -1,0 +1,1 @@
+﻿NDSearch.OnPrefixDataLoaded("tab",["Section"],[["Tablas",,[[,"Tablas Estructurales",,,0,"File:Arquitectura.txt:Tablas_Estructurales"],[,"Tablas Transaccionales",,,0,"File:Arquitectura.txt:Tablas_Transaccionales"]]],["Tablero",,[[,"4. Tablero de Control",,"4.tablero de control",0,"File:ManualUsuario.txt:4.Tablero_de_Control"]]]]);

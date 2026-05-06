@@ -1,0 +1,1 @@
+﻿NDFramePage.OnPageTitleLoaded("File:Arquitectura.txt","Arquitectura.txt");NDSummary.OnSummaryLoaded("File:Arquitectura.txt",[["Text File","TextFile"]],[["Sections","Section"]],[[1,0,0,"Arquitectura de Base de Datos SG-SST","Arquitectura_de_Base_de_Datos_SG-SST"],[2,0,0,"Tablas Estructurales","Tablas_Estructurales"],[3,0,0,"Tablas Transaccionales","Tablas_Transaccionales"]]);
