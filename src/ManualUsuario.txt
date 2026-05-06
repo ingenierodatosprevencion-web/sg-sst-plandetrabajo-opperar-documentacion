@@ -1,49 +1,85 @@
-Title: Manual de Usuario SG-SST
+Title: Manual de Usuario Integral SG-SST
 
-Bienvenido al manual de usuario del Sistema de Gestión del Plan de Trabajo (SG-SST). Esta plataforma permite la planificación, ejecución y seguimiento de las actividades asociadas a los diferentes Planes de Trabajo de la compañía.
+Bienvenido al manual completo del Sistema de Gestión del Plan de Trabajo (SG-SST) de Opperar. Esta herramienta está diseñada para centralizar, controlar y auditar la ejecución de los diferentes Planes de Trabajo (Analista, SST Sede Central, PESV, etc.).
 
-Section: 1. Roles y Permisos
+Section: 1. Acceso al Sistema y Seguridad
 
-El sistema identifica automáticamente tu nivel de acceso al iniciar sesión:
+El sistema está protegido mediante credenciales individuales gestionadas por el Administrador.
 
-- *Administrador*: Tiene acceso total. Puede ver los tableros de control (Dashboard), crear nuevas actividades, hacer planeación masiva y ver las tareas de cualquier analista. Además, no tiene límite de reprogramaciones.
-- *Analista Principal*: Es el dueño del proceso. Solo visualiza y gestiona las tareas que están a su nombre (responsable directo).
-- *Auxiliar*: Apoya la gestión de una sede u operación. Solo puede visualizar y editar las tareas que le pertenecen al Analista Principal de su misma operación.
+- *Iniciar Sesión*: Ingresa tu usuario asignado y contraseña en la pantalla principal.
+- *Cambio de Contraseña*: Si necesitas renovar tu acceso, haz clic en el enlace "¿Cambiar contraseña?" debajo del botón de inicio de sesión. El sistema te pedirá tu usuario, la contraseña actual y la nueva. Al actualizarse, el sistema te redirigirá automáticamente al inicio.
+- *Cierre de Sesión*: Utiliza el botón naranja con el ícono de salida (arriba a la derecha) para cerrar tu sesión de forma segura.
 
-Section: 2. Módulo "Mis Tareas"
+Section: 2. Perfiles y Permisos
 
-Es la pantalla principal de ejecución. Aquí encontrarás las tarjetas de las actividades que debes realizar.
+El sistema adapta la información que ves según tu rol:
 
-*Filtros de Búsqueda*
-En la parte superior tienes una barra de herramientas para encontrar rápidamente tus asignaciones:
-- Puedes filtrar por *Mes*, *Estado* (ej. Planeado, Terminado), *Sede/Operación* y *Programa*.
-- *Filtro por Plan de Trabajo (PDT)*: Te permite separar visualmente si estás revisando tareas del "PESV SEDE CENTRAL", "SST SEDE CENTRAL" o el "PLAN DE TRABAJO ANALISTA".
+- *Administrador*: Control total. Puede visualizar las tareas de todos, acceder al Dashboard, crear actividades en el catálogo y ejecutar planeaciones masivas. No tiene límite de reprogramaciones.
+- *Analista Principal*: Es el responsable directo de una sede o proceso. Solo visualiza y gestiona las tareas que están asignadas explícitamente a su correo.
+- *Auxiliar*: Personal de apoyo. Visualiza las tareas de la sede a la que pertenece, pero *solo* aquellas que están bajo la responsabilidad de su Analista Principal asignado.
 
-*Gestión y Guardado*
-Para cada tarea, puedes modificar su estado actual, agregar una observación de texto y guardar los cambios.
-Si modificas varias tareas al mismo tiempo, aparecerá un botón verde en la parte superior derecha que te permitirá *Guardar Todas* en un solo clic.
+Section: 3. Módulo "Mis Tareas" (Ejecución)
 
-Section: 3. Lógica de Reprogramación (Aplazamientos)
+Es la pantalla principal donde el personal registra su avance diario.
 
-Si por algún motivo no puedes cumplir con una tarea en el mes actual, el sistema permite moverla al mes siguiente bajo reglas estrictas:
+*A. Barra de Filtros*
+Permite encontrar tareas específicas rápidamente:
+- *Mes*: Despliega los meses del año. Por defecto muestra "Todos".
+- *Estado*: Filtra por el avance (PLANEADO, TERMINADO, INICIADO, etc.).
+- *Buscar Actividad*: Un buscador de texto libre. Escribe una palabra (ej. "Matriz") y filtrará las tareas en tiempo real.
+- *Sede / Operación*: Filtra las tareas de una sede específica.
+- *Programa y Plan de Trabajo*: Permite segmentar si estás revisando el PESV, el SST o el Plan de Analista.
+- *Analista (Solo Admin)*: Permite al administrador revisar el tablero como si fuera un analista específico.
 
-1. Selecciona el estado *REPROGRAMADO*.
-2. Al guardar, la tarea desaparecerá del mes actual y se creará en el mes siguiente con estado "PLANEADO".
+*B. Gestión de Tarjetas (Tareas)*
+Cada tarea se muestra como una tarjeta. Para gestionarla:
+1. Cambia el *Estado* en el menú desplegable.
+2. Escribe una *Observación* (opcional, pero recomendada para justificaciones).
+3. Haz clic en el botón verde con el check (*Guardar*) ubicado arriba a la derecha de la tarjeta.
 
-*Restricciones del Sistema (Anti-Colisión):*
-- *Límite de intentos*: Un Analista solo puede reprogramar una misma tarea un máximo de 3 veces. Si alcanza el límite, deberá marcarla como *NO EJECUTADO*.
-- *Tareas Recurrentes*: Si intentas reprogramar una tarea, pero el sistema detecta que ya tienes esa misma actividad asignada para el mes siguiente, no te dejará moverla para evitar que se duplique.
-- *Cierre de Año*: Las actividades programadas para el mes de *Diciembre* no pueden ser reprogramadas hacia el próximo año.
+*C. Guardado Masivo*
+Si actualizas el estado o las observaciones de *varias tareas* al mismo tiempo, aparecerá un gran botón verde en la parte superior derecha de la pantalla: *Guardar X Cambios*. Al presionarlo, el sistema procesará todas las tarjetas de un solo golpe, ahorrando mucho tiempo.
 
-Section: 4. Tablero de Control (Dashboard)
+Section: 4. Reglas de Reprogramación (Aplazamientos)
 
-Módulo exclusivo para Administradores. Presenta los indicadores clave de rendimiento (KPIs) en tiempo real.
+Si una tarea no se puede ejecutar en el mes actual, se puede desplazar al mes siguiente bajo estrictas reglas de auditoría:
 
-- *Cumplimiento Global*: Muestra el porcentaje de éxito de toda la empresa basado en las tareas cerradas frente a las planeadas.
-- *Alertas de Retraso*: Muestra la cantidad de tareas de *meses anteriores* que quedaron abiertas. Se pueden desglosar los retrasos por Analista, Operación y Plan de Trabajo (PDT).
-- *Gráficos de Barras*: Visualización interactiva para comparar rápidamente el rendimiento por Mes, Top 10 de Operaciones, Programas y PDTs.
+- *¿Cómo hacerlo?*: Selecciona el estado *REPROGRAMADO* y guarda la tarea. Desaparecerá de tu vista actual y viajará al mes siguiente volviendo a estado "PLANEADO".
+- *Límite de 3 Intentos*: Un analista no puede aplazar la misma tarea más de 3 veces. Al cuarto intento, el sistema bloqueará la acción y obligará a marcarla como *NO EJECUTADO*. (El administrador está exento de esta regla).
+- *Bloqueo Anti-Colisión*: Si la tarea es de frecuencia mensual (ya tienes una igual programada para el próximo mes), el sistema no te dejará reprogramarla para evitar tareas duplicadas.
+- *Cierre de Año*: Las actividades de Diciembre no permiten reprogramación.
 
-Section: 5. Registro de Auditoría
+Section: 5. Módulo "Planeación Masiva"
 
-Por seguridad y trazabilidad, el sistema cuenta con un motor de auditoría invisible. 
-Cualquier cambio de estado, eliminación de tareas, creación de actividades o reprogramaciones masivas, queda registrado con la fecha exacta, la acción y el *correo del usuario* que la realizó.
+Exclusivo para administradores. Permite inyectar nuevas tareas a la base de datos de forma rápida para meses específicos.
+
+*Pasos para cargar un plan:*
+1. *Seleccionar Actividad*: Elige la actividad del catálogo general.
+2. *Modo de Asignación*: 
+   - *Sedes Individuales*: Te permite marcar con un check las sedes específicas que recibirán la tarea.
+   - *Por Tipo de Proceso*: Seleccionas una categoría (ej. Operaciones Logísticas) y el sistema le asignará la tarea a todas las sedes que pertenezcan a ese proceso.
+3. *Meses de Ejecución*: Selecciona uno o varios meses haciendo clic en los botones azules (Ene, Feb, Mar...).
+4. *Guardar*: Haz clic en "Guardar Planeación". El sistema cruzará los datos y creará las tarjetas automáticamente para los responsables de esas sedes.
+
+Section: 6. Módulo "Crear Actividad" (Catálogo)
+
+Exclusivo para administradores. Si necesitas que los analistas realicen una tarea que no existe en el sistema:
+1. Ve a "Crear Actividad" en el menú superior.
+2. Selecciona el *Programa*.
+3. Escribe el *Nombre de la Actividad*.
+4. Define la *Meta* (ej. 100%) y el *Tipo* (Operativo o Estratégico).
+5. Haz clic en "Crear". Inmediatamente estará disponible en el módulo de Planeación Masiva.
+
+Section: 7. Módulo "Dashboard" (Tablero de Control)
+
+Exclusivo para administradores. Muestra los KPIs (Key Performance Indicators) en tiempo real.
+
+- *Cumplimiento Global*: Porcentaje general de éxito de la empresa.
+- *Alertas de Retraso*: Muestra cuántas tareas debieron cerrarse en meses anteriores y siguen abiertas. Incluye acordeones desplegables para ver quiénes son los Analistas o Sedes con más deudas.
+- *Detalles de Cumplimiento*: Tablas numéricas que evalúan el rendimiento dividiéndolo por Analista, Operación, Mes, Programa y PDT.
+- *Gráficos Visuales*: Representaciones en barras horizontales para un análisis rápido de los mejores y peores rendimientos del mes.
+
+Section: 8. Auditoría y Trazabilidad
+
+Todo lo que ocurre en el SG-SST queda registrado de manera invisible e inmutable. 
+Cada creación, modificación, reprogramación masiva o eliminación física genera un registro en la base de datos central que incluye: fecha y hora exacta, correo del usuario que realizó la acción, y el detalle de lo que se modificó.
